@@ -1,0 +1,23 @@
+name: commit
+
+on:
+  push:
+    branches-ignore:
+    - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: validate
+      run: echo "cnf-lint the template"
+  diff:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: diff
+      run: |
+        AWS_PROFILE=asdf ENV=dev make infra-diff
+        AWS_PROFILE=asdf ENV=prod make infra-diff

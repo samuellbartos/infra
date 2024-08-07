@@ -1,0 +1,27 @@
+name: merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: push
+      run: AWS_PROFILE=asdf ENV=dev make-infra
+  approve:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: approve
+        run: echo "manual approve after testing the change on the dev account"
+  deploy-prod:
+    needs: approve
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: push
+      run: AWS_PROFILE=asdf ENV=prod make-infra
