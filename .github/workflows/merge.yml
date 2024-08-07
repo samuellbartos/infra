@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: push
-      run: AWS_PROFILE=asdf ENV=dev make-infra
+      run: AWS_PROFILE=asdf ENV=dev make infra
   approve:
     needs: deploy-dev
     runs-on: ubuntu-latest
@@ -24,4 +24,4 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: push
-      run: AWS_PROFILE=asdf ENV=prod make-infra
+      run: AWS_PROFILE=asdf ENV=prod make infra
